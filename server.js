@@ -7,9 +7,22 @@ var port = process.env.PORT || 8080;
 
 var router = express.Router();
 
+var dateInfo = function(now){
+  var info = {'time' : now,
+   'dayMonth': now.getDate(),
+   'dayWeek': now.getDay(),
+   'hour': now.getHours(),
+   'minute': now.getMinutes(),
+   'month': now.getMonth(),
+   'year': now.getFullYear()
+  }
+  return info;
+}
+
 router.get('/', function(req, res) {
   console.log('Save & sound');
-  req.db.collection('detections').insertOne({'time' : new Date()})
+  var now =  new Date();
+  req.db.collection('detections').insertOne(dateInfo(now))
   res.send();
 });
 
