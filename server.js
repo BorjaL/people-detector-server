@@ -2,11 +2,14 @@ var express = require('express');
 var http = require('http');
 var expressMongoDb = require('express-mongo-db');
 var KeenTracking = require('keen-tracking');
+var env = require('node-env-file');
+
+env('.env');
+
 var app = express();
-app.use(expressMongoDb('mongodb://mongo:27017/people_detector'));
+app.use(expressMongoDb('mongodb://' + process.env.MONGO_HOST + ':' + process.env.MONGO_PORT + '/people_detector'));
 
 var port = process.env.PORT || 8080;
-
 var router = express.Router();
 
 var saveInfo = function(date, weather_raw){
@@ -43,13 +46,13 @@ var saveInfo = function(date, weather_raw){
 }
 
 var client = new KeenTracking({
-  projectId: '59a99221c9e77c0001bc2342',
-  writeKey: '7A6FD22AC42DC3DE12AA58214C105DA0E23E12629D1260C2D0BED8D4D642D5147343FEB725CBC026FE72DB5893E12B3D728D02B8E7224E197B938E5F7A93A9296285C71D6572E0A9CBC80FABC442D7C3D1FAF78D5C92D3DC27866FA841CFB1F1'
+  projectId: process.env.KEEN_PROJECT_ID,
+  writeKey: process.env.KEEN_WRITE_KEY
 });
 
 var weather_options = {
   hostname: 'api.openweathermap.org',
-  path: '/data/2.5/weather?lat=43.375489&lon=-8.3973306&units=metric&APPID=ffe37f9624875ae525fb6bf455e54695'
+  path: '/data/2.5/weather?lat=43.375489&lon=-8.3973306&units=metric&APPID=' + process.env.OPENWEATHERMAP_APPID
 }
 
 router.get('/', function(req, res) {
