@@ -55,7 +55,7 @@ var weather_options = {
   path: '/data/2.5/weather?lat=43.375489&lon=-8.3973306&units=metric&APPID=' + process.env.OPENWEATHERMAP_APPID
 }
 
-router.get('/', function(req, res) {
+router.get('/count', function(req, res) {
   console.log('Save & sound');
 
   http.get(weather_options, function(res){
