@@ -4,13 +4,12 @@ FROM node:boron
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package.json .
 COPY package.json package-lock.json ./
 
 RUN npm install
 
 # Bundle app source
-COPY server.js .
+COPY ./src ./src
 COPY .env.docker .env
 
 EXPOSE 8080
