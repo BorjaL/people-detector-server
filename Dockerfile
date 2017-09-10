@@ -11,6 +11,7 @@ RUN npm install
 
 # Bundle app source
 COPY server.js .
+COPY .env.docker .env
 
 EXPOSE 8080
 CMD [ "npm", "start" ]
